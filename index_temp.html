@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="PERIA: Perceive, Reason, Imagine, Act via Holistic Language and Vision Planning for Manipulation">
+  <!-- <meta name="keywords" content="Nerfies, D-NeRF, NeRF"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PERIA: Perceive, Reason, Imagine, Act via Holistic Language and Vision Planning for Manipulation
+</title>
+
+
+  <style>
+      /* 使用CSS来控制视频的宽度 */
+      video {
+          width: 33%;
+          height: auto; /* 让高度自适应，保持视频比例 */
+      }
+      select {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        appearance: none;
+        background-color: #f8f8f8;
+        cursor: pointer;
+      }
+
+      select:hover {
+        background-color: #e0e0e0;
+      }
+
+      select:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+      }
+
+    .video-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* 水平居左对齐 */
+}
+
+    .outer-container {
+        display: flex;
+        justify-content: space-between; /* 使得三个内部容器在横向上均匀分布 */
+    }
+
+    .inner-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;  /* 水平居左对齐 */
+        width: 30%; /* 每个内部容器占据1/3的宽度，你可以根据需要调整这个值 */
+    }
+
+  </style>
+
+
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<!--<body>-->
+
+  <body>
+
+  <section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">PERIA: Perceive, Reason, Imagine, Act via Holistic Language and Vision Planning for Manipulation
+</h1>
+          <div class="is-size-5 publication-authors">
+            <!-- <span class="author-block">
+              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+            </span>
+          </div> -->
+<!--
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>University of Washington,</span>
+            <span class="author-block"><sup>2</sup>Google Research</span>
+          </div> -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+<!--              <span class="link-block">-->
+<!--                <a href=""-->
+<!--                   class="external-link button is-normal is-rounded is-dark">-->
+<!--                  <span class="icon">-->
+<!--                      <i class="ai ai-arxiv"></i>-->
+<!--                  </span>-->
+<!--                  <span>arXiv</span>-->
+<!--                </a>-->
+<!--              </span>-->
+
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://cotdiffusion.github.io/"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code(Coming Soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+Long-horizon manipulation tasks with general instructions often implicitly encapsulate multiple sub-tasks, posing significant challenges in instruction following.
+While language planning is a common approach to decompose general instructions into stepwise sub-instructions, text-only guidance may lack expressiveness and lead to potential ambiguity. Considering that humans often imagine and visualize sub-instructions reasoning out before acting, the imagined subgoal images can provide more intuitive guidance and enhance the reliability of decomposition. Inspired by this, we propose \textbf{PERIA}(\textbf{PErceive, Reason, Imagine, Act}), a novel framework that integrates holistic language planning and vision planning for long-horizon manipulation tasks with complex instructions, leveraging both logical and intuitive aspects of task decomposition.
+Specifically, we first perform a lightweight multimodal alignment on the encoding side to empower the MLLM to perceive visual details and language instructions. 
+The MLLM is then jointly instruction-tuned with a pretrained image-editing model to unlock capabilities of simultaneous reasoning of language instructions and generation of imagined subgoals. Furthermore, we introduce a consistency alignment loss to encourage coherent subgoal images and align with their corresponding instructions, mitigating potential hallucinations and semantic conflicts between the two planning manners.
+Comprehensive evaluations across three task domains demonstrate that PERIA, benefiting from holistic language and vision planning, significantly outperforms competitive baselines in both instruction following accuracy and task success rate on complex manipulation tasks.
+<!--              \url{https://cotdiffusion.github.io}.</a>.-->
+          </p>
+        </div>
+      </div>
+    </div>
+
+         <!--/ Motivation Example. -->
+
+
+<!--     <hr style="border-top: 5px dotted #b8b8b8;">
+    <h2 class="title is-3">Illustrative Overview of PERIA</h2>
+    <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 100%" src="./static/images/intro_formal_version.pdf"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+        <strong> The overview of pipeline for PERIA(Perceive, Reason, Imagine, Act)</strong>. Inspired by the human cognitive process of following complex instructions, which involves perceiving environment and tasks, reasoning the required language plans, and imagining the intermediate subgoal images before acting, a natural question arises: 
+<strong>Can we develop a framework that emulates this cognitive synergy by simultaneously performing language planning and vision planning for robotic manipulation tasks involving complex instructions just like humans?</strong>
+      </p>
+    </div> -->
+
+
+<!--/ Motivation Example. -->
+<hr style="border-top: 5px dotted #b8b8b8;">
+
+<!-- Method. -->
+<h2 class="title is-3">Illustrative Overview of PERIA</h2>
+
+<div style="display: flex; margin: auto; justify-content: center; width: 100%">
+  <img style="width: 100%" src="./static/images/intro_formal_version.pdf"/>
+</div>
+
+<div class="content has-text-justified">
+  <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
+    <strong>The overview of pipeline for PERIA(Perceive, Reason, Imagine, Act)</strong>. Inspired by the human cognitive process of following complex instructions, which involves perceiving environment and tasks, reasoning the required language plans, and imagining the intermediate subgoal images before acting.
+  </p>
+
+  <p style="margin-top: 20px;">
+    Language planning focuses on <strong>how to act</strong> and the sub-instructions outline the necessary procedural action process of the task completion, emphasizing the temporal dependencies and causal relationships between decomposed stepwise sub-instructions.
+On the other hand, vision planning concentrates on <strong>what to act towards</strong> and intuitive and grounded subgoal images with rich spatial and contextual information can enable robot agents to more easily understand what intermediate landmarks and visual anchors should achieve towards task completion.
+From a cognitive perspective, humans rely on a symbiotic operation of the brain’s hemispheres, with the left primarily associated with logical <strong>language-based reasoning</strong>, and the right is linked to intuitive <strong>visual-based imagining</strong>. 
+For humans, language planning and vision planning are often intertwined and performed simultaneously, involving either imagining the desired intermediate goals and then reasoning about the required plans to achieve them, or first reasoning out necessary stepwise plans and then imagining corresponding resulting images. 
+    Inspired by this, a natural question arises:
+    <strong>Can we develop a framework that emulates this cognitive synergy by simultaneously performing language planning and vision planning for robotic manipulation tasks involving complex instructions just like humans?</strong>
+  </p>
+</div>
+
+
+
+<!--/ Method. -->
+<hr style="border-top: 5px dotted #b8b8b8;">
+
+<!-- Method. -->
+<h2 class="title is-3">Two-phase Training Pipeline</h2>
+
+<div style="display: flex; margin: auto; justify-content: center; width: 100%">
+  <img style="width: 100%" src="./static/images/training_pipeline.pdf"/>
+</div>
+
+<div class="content has-text-justified">
+  <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
+    <strong>The overview of training framework for PERIA</strong>. PERIA first learns to align the vision and language on encoding side of MLLM for perceiving. Then PERIA performs instruction tuning to MLLM jointly with diffusion model in an end-to-end manner to unlock the reasoning and generation ability for holistic language planning and vision planning. 
+</p>
+  <p style="margin-top: 20px;">
+By leveraging MLLM and diffusion-based image editing models, PERIA enables holistic language planning and vision planning for stepwise language instructions and visual subgoal images, serving as language milestones and visual anchors to guide action execution in long-horizon tasks. We first introduce the lightweight alignment of language and vision modalities on the encoding side of the MLLM to achieve precise <strong>Perceive</strong> ability. We then perform instruction tuning on the MLLM to enable <strong>Reason</strong> for language planning and jointly train with a diffusion model to  <strong>Imagine</strong> coherent subgoal images aligned with corresponding instructions. Moreover, we leverage an explicit alignment between instructions and images to achieve a synergistic effect between language and vision. 
+  </p>
+</div>
+
+
+
+
+
+
+
+<!--/ Method. -->
+<hr style="border-top: 5px dotted #b8b8b8;">
+
+<!-- Method. -->
+<h2 class="title is-3">Details of Training</h2>
+
+<div style="display: flex; margin: auto; justify-content: center; width: 100%">
+  <img style="width: 100%" src="./static/images/three_pipelines_v2.pdf"/>
+</div>
+
+<div class="content has-text-justified">
+  <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
+    <strong>Three pipelines of MLLM for generation images</strong>.  PERIA leverage visual tokens extracted from the MLLM during language planning serve as more expressive guidance for subgoal imagination compared to captions or decomposed instructions in language only.
+</p>
+<!--   <p style="margin-top: 20px;">
+While a natural approach would be to directly use the text instructions or captions as prompts for the image editing model, shown in~\cref{fig:vision planning pipeline}, relying solely on decoded text instructions as conditions may lead to an information bottleneck. The expressiveness of the instructions can be limited, and information loss may occur, as it is confined to the language modality.
+Inspired by \cite{fu2023guiding, koh2024generating}, to bridge the gap between the language and vision modalities, we introduce $N$ special \texttt{[IMG]} tokens in the vocabulary codebook of the MLLM. 
+These special tokens have trainable word embeddings and should be predicted after the generated language instructions jointly during the reasoning phase, shown in~\cref{fig:overview}.
+These appended visual tokens \texttt{[IMG]} are treated as latent imagination of subgoal image from the MLLM and we employ an output image projection module $\mathcal{R}$ to transform them into actual visual guidance $\mathcal{U}$ for diffusion model:
+\begin{equation}
+    \mathcal{U} = \mathcal{R}(\{w_{\texttt{lang}}+h_{\texttt{[IMG]}}\}, q)
+\end{equation}
+where $w$ is the word embedding of language instructions and $h$ is the hidden state from the last layer of MLLM before image projection layer of \texttt{[IMG]}, conditioned on learnable query embeddings $q = \{q_1, ..., q_L\}$, where $L$ is the token numbers setting from the pre-trained diffusion model.
+The transformation over $w$ can be seen as a general representation from language modality, while $h$ represents a more grounded visual imagination that aligns with the language planning within the MLLM's reasoning.
+To simultaneously fine-tune the diffusion model and the MLLM, we employ the generation loss between the generated image and the groundtruth image. Our image editing model is based on latent diffusion, which learns the noise latent $z_t$ at the denoising timestamp $t$ to reconstruct the groundtruth goal image.
+  </p> -->
+
+<p style="margin-top: 20px;">
+While a natural approach would be to directly use the text instructions or captions as prompts for the image editing model, relying solely on decoded text instructions as conditions may lead to an information bottleneck. The expressiveness of the instructions can be limited, and information loss may occur, as it is confined to the language modality.To bridge the gap between the language and vision modalities, we introduce <i>N</i> special <code>[IMG]</code> tokens in the vocabulary codebook of the MLLM. These special tokens have trainable word embeddings and should be predicted after the generated language instructions jointly during the reasoning phase. These appended visual tokens <code>[IMG]</code> are treated as latent imagination of subgoal image from the MLLM and we employ an output image projection module <i>R</i> to transform them into actual visual guidance <i>U</i> for diffusion model:
+<p style="text-align: center;">
+<i>U</i> = <i>R</i>({<i>w</i><sub>lang</sub> + <i>h</i><sub>[IMG]</sub>}, <i>q</i>)
+</p>
+The transformation over <i>w</i> can be seen as a general representation from language modality, while <i>h</i> represents a more grounded visual imagination that aligns with the language planning within the MLLM's reasoning.
+To simultaneously fine-tune the diffusion model and the MLLM, we employ the generation loss between the generated image and the groundtruth image. 
+
+
+
+
+
+
+
+
+
+<h3>Enhancing Consistency between Vision and Language Planning</h3>
+<a id="method-consistency"></a>
+<p>
+To further enhance the consistency between vision and language planning, we introduce an additional alignment objective between generated language instructions and visual images. Specifically, we feed both the generated image <i>v</i><sub>t+1</sub> and the current observation <i>o</i><sub>t</sub> at planning step <i>t</i> into the MLLM and prompt it with understanding the differences between the two frames, which is exactly the <em>action recognition</em> captioning task in the perceive phase of PERIA. The response output <i>Ẽ</i><sub>t</sub> generated by the MLLM is compared with the groundtruth stepwise language instruction <i>E</i><sub>t</sub> for consistency, and can be formulated as the alignment consistency loss:
+</p>
+<div style="text-align: center;">
+<p>
+<i>C</i> = {<i>E</i><sub>t</sub>}<sub>t=0</sub><sup>T</sup>, &nbsp;&nbsp;&nbsp; <i>I</i> = {(<i>o</i><sub>t</sub>, <i>v</i><sub>t+1</sub>)}<sub>t=0</sub><sup>T</sup>,<br>
+<i>Ẽ</i><sub>t</sub> = MLLM(prompt, <i>W</i>(<i>f</i>={<i>V</i>(<i>o</i><sub>t</sub>), <i>V</i>(<i>v</i><sub>t+1</sub>)})),<br>
+<i>L</i><sub>Consistency</sub> = &sum;<sub>t=0</sub><sup>T</sup> CELoss(<i>Ẽ</i><sub>t</sub>, <i>E</i><sub>t</sub>)
+</p>
+</div>
+
+
+</div>
+
+
+
+
+<!-- 
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 90%" src="./static/images/coarse_to_fine.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+        <strong>The two phases of coarse-to-fine alignment module .</strong> First, the aligned module is coarsely pre-trained to predict residual mask patches between subgoal images for aligning spatial semantics, focusing on salient differences rather than pixel details in textures or colors.
+The semantic alignment module is then integrated into the diffusion model for step-wise image generation with fine-grained pixel reconstruction. Additionally, bi-directional generation and frame concatenation mechanism further enhance subgoal image fidelity and instruction following.      </p>
+    </div> -->
+
+                     <!--  <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 90%" src="./static/images/visualization_main.png"/>
+                        </div>
+          <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+        <strong>The visualization of CoTDiffusion</strong> in three typical long-horizon tasks with multi-modal prompts in VIMA-BENCH.    </div>
+ -->
+      <!-- </div>
+    </div> -->
+    <!--/ Method. -->
+    <hr style="border-top: 5px dotted #b8b8b8;">
+    <h2 class="title is-3">Quantitative Results</h2>
+    <!--/ Hopper. -->
+      <h3 class="title is-4">Main Evaluation on Success Rate</h3>
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 98%" src="./static/images/main_results.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          The baselines can be divided into two kinds of planners, including <strong>abstract planner</strong> and <strong>visual planner</strong>.
+<strong>Abstract planner</strong> like Gato, Flamingo and VIMA directly map general prompts to subsequent actions in an end-to-end manner. Gato and Flamingo gets low success rates on long-horizon tasks without explicit subgoal generation to correct the accumulative deviation errors from the instructions.
+In contrast, <strong>visual planner</strong> like SuSIE and CoTDiffusion can generate intermediate goal images to guide the action planning, which can enhance instruction following for long-horizon tasks via visual planning.   </p>
+    </div>
+
+      <h3 class="title is-4"> Accuracy of Language Planning</h3>
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 90%" src="./static/images/results_2.pdf"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          The experiments demonstrate that CoTDiffusion enjoys better robustness to restricted perception than abstract planners, highlighting the benefits of hierarchical framework decoupled visual planning and action planning. Accurate and grounded subgoal images generated in visual planners provide supplemental visual context, which can partly compensate for the insufficient perception to aid robustness under single-view.
+The requirements for the low-level action planner are reduced to basic single-object manipulation primitives in short horizon by providing coherent subgoal images as visual landmarks, with less reliance on rich visual perceptions.   </div>
+
+
+      <h3 class="title is-4">Fidelity of Vision Planning</h3>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          With step-wise sub-prompts decomposed in advance, the performance of SuSIE gets largely raised but still underperforms CoTDiffusion, which has no need to explicitly decompose the general prompts and can generate subgoal images in an implicit chain-of-thought manner. The coarse-to-fine semantic alignment training training allows developing spatial reasoning prior to synthesis.
+Frame concatenation further guides coherent denoising by providing rich context information as visual priors to ground the current observation and enhance the fidelity of generation.  </div>
+
+
+      <h3 class="title is-4">Accuracy of Instruction Following</h3>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          We evaluate instruction following accuracy via CLIP similarity between generated keyframes and general prompts, normalized by the CLIP score between ground truth ultimate goal image and prompts. Without chain-of-thought reasoning abilities, SuSIE struggles to follow instructions when given general multi-modal prompts, let alone generate subgoal images with smooth progressions. The coarse alignment pretraining and bi-directional generation can assist CoTDiffusion in tracking the progress of generated keyframes throughout the entire chain and generate sequenced keyframes incrementally advancing prompt instructions.</div>
+
+
+      <h3 class="title is-4">Generalization across Tasks</h3>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          We evaluate the generalization ability in three levels with increasing difficulty: placement generalization which randomizes the novel placement of objects (L1), object generalization which provides the objects with novel attributes (L2), and  task combinatorial generalization which complexes the prompts with extra novel instruction (L3).
+    When CoTDiffusion visualizes novel concepts into goal images, the foundation model can still accomplish the stack by simply achieving the provided subgoal, with no need to inherently understand novel skills like stack.
+    </div>
+
+
+      <h3 class="title is-4">Ablation Studies of Horizon Length</h3>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          We conduct an additional experiment by increasing the number of objects and the corresponding manipulation steps to evaluate the success rate of different methods on more complex and longer-horizon manipulation tasks. The results demonstrate that CoTDiffusion enjoys better robustness for longer horizons compared to abstract planners, with the benefit from the explicit visual subgoals providing improved guidance for following complex instructions.    </div>
+
+
+
+      <h3 class="title is-4">Ablation Studies of Model Capacity</h3>
+
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          We conduct additional ablation experiments on the model capacity of some key components, including the semantic alignment module, T5 tokenizer, and low-level foundation model. Based on the experiments, we chose T5-base, a 20M semantic alignment module, and a 40M foundation model as our final model configuration. </div>
+
+
+
+
+
+ <hr style="border-top: 5px dotted #b8b8b8;">
+    
+    <h2 class="title is-3">Typical Cases</h2>
+
+    <h3 class="title is-4">Success Case</h3>
+
+
+<div class="outer-container">
+    <!-- 第一组 -->
+    <div class="inner-container">
+        <select onchange="changeVideo('success1', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        </select>
+
+        <video id="successVideoPlayer1" controls>
+        <source id="successVideoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 第二组 -->
+    <div class="inner-container">
+        <select onchange="changeVideo('success2', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        </select>
+
+        <video id="successVideoPlayer2" controls>
+        <source id="successVideoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 第三组 -->
+    <div class="inner-container">
+        <select onchange="changeVideo('success3', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        </select>
+
+        <video id="successVideoPlayer3" controls>
+        <source id="successVideoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+
+      <div class="outer-container">
+    <!-- 第一组 -->
+    <div class="inner-container">
+        <select onchange="changeVideo('success1', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        </select>
+
+        <video id="successVideoPlayer1" controls>
+        <source id="successVideoSource1" src="" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 第二组 -->
+    <div class="inner-container">
+        <select onchange="changeVideo('success2', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        </select>
+
+        <video id="successVideoPlayer2" controls>
+        <source id="successVideoSource2" src="" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- 第三组 -->
+    <div class="inner-container">
+        <select onchange="changeVideo('success3', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        </select>
+
+        <video id="successVideoPlayer3" controls>
+        <source id="successVideoSource3" src="" type="video/mp4">
+        Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+
+
+<section class="section">
+    <div class="container is-max-widescreen">
+
+        <div class="rows">
+            <div class="rows is-centered ">
+                <div class="row is-full-width">
+                    <h2 class="title is-3"><span
+                            class="dvima">VIMA-Bench: Benchmark for Multimodal Robot Learning</span></h2>
+                    <span style="font-size: 125%">
+                        We provide 17 representative tasks with multimodal prompt templates, which can be procedurally instantiated into thousands of individual instances by various combinations of textures and tabletop objects.
+                    </span>
+
+                    <br>
+                    <br>
+                    <br>
+
+                    <div class="columns">
+                        <!-- Simple Object Manipulation -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Blocks&Bowls</h3>
+                            <div class="select is-medium">
+                                <select id="simple-object-manipulation-menu-tasks"
+                                        onchange="updateDemoVideo('simple-object-manipulation')">
+                                    <option value="simple_manipulation" selected="selected">Visual Manipulation</option>
+                                    <option value="rotate">Rotate</option>
+                                    <option value="scene_understanding">Scene Understanding</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="simple-object-manipulation-menu-instances"
+                                        onchange="updateDemoVideo('simple-object-manipulation')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="simple-object-manipulation-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="videos/test.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+
+<!-- Visual Goal Reaching -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Visual Goal Reaching</h3>
+                            <div class="select is-medium">
+                                <select id="visual-goal-reaching-menu-tasks"
+                                        onchange="updateDemoVideo('visual-goal-reaching')">
+                                    <option value="rearrange" selected="selected">Rearrange</option>
+                                    <option value="rearrange_then_restore">Rearrange Then Restore</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="visual-goal-reaching-menu-instances"
+                                        onchange="updateDemoVideo('visual-goal-reaching')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="visual-goal-reaching-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="assets/videos/demos/visual_goal_reaching/rearrange/1.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+
+                    </div>
+
+                    <br>
+                    <div class="columns">
+                        <!-- Novel Concept Grounding -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Novel Concept Grounding</h3>
+                            <div class="select is-medium">
+                                <select id="novel-concept-grounding-menu-tasks"
+                                        onchange="updateDemoVideo('novel-concept-grounding')">
+                                    <option value="novel_adj_and_noun" selected="selected">Novel Adjective and Noun
+                                    </option>
+                                    <option value="novel_adj">Novel Adjective</option>
+                                    <option value="novel_noun">Novel Noun</option>
+                                    <option value="twist">Twist</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="novel-concept-grounding-menu-instances"
+                                        onchange="updateDemoVideo('novel-concept-grounding')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="novel-concept-grounding-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="assets/videos/demos/novel_concept_grounding/novel_adj_and_noun/1.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+                        <!-- One Shot Video Imitation -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">One-shot Video Imitation</h3>
+                            <div class="select is-medium">
+                                <select id="one-shot-video-imitation-menu-tasks"
+                                        onchange="updateDemoVideo('one-shot-video-imitation')">
+                                    <option value="follow_motion" selected="selected">Follow Motion</option>
+                                    <option value="follow_order">Follow Order</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="one-shot-video-imitation-menu-instances"
+                                        onchange="updateDemoVideo('one-shot-video-imitation')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="one-shot-video-imitation-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="assets/videos/demos/one_shot_video_imitation/follow_motion/1.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="columns">
+                        <!-- Visual Constraint Satisfaction -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Visual Constraint Satisfaction</h3>
+                            <div class="select is-medium">
+                                <select id="visual-constraint-satisfaction-menu-tasks"
+                                        onchange="updateDemoVideo('visual-constraint-satisfaction')">
+                                    <option value="sweep_without_exceeding" selected="selected">Sweep without
+                                        Exceeding
+                                    </option>
+                                    <option value="sweep_without_touching">Sweep without Touching</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="visual-constraint-satisfaction-menu-instances"
+                                        onchange="updateDemoVideo('visual-constraint-satisfaction')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="visual-constraint-satisfaction-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   playbackRate="2.0"
+                                   width="100%">
+                                <source src="assets/videos/demos/visual_constraint_satisfaction/sweep_without_exceeding/1.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+                        <!-- Visual Reasoning -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Visual Reasoning</h3>
+                            <div class="select is-medium">
+                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')">
+                                    <option value="manipulate_old_neighbor" selected="selected">Manipulate Old
+                                        Neighbor
+                                    </option>
+                                    <option value="pick_in_order_then_restore">Pick in Order Then Restore</option>
+                                    <option value="same_color">Same Texture</option>
+                                    <option value="same_profile">Same Shape</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="visual-reasoning-menu-instances"
+                                        onchange="updateDemoVideo('visual-reasoning')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="visual-reasoning-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="assets/videos/demos/visual_reasoning/manipulate_old_neighbor/1.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<div class="video-container">
+      <select onchange="changeVideo('success', this)">
+        <option value="videos/test.mp4">FrankaKitchen0</option>
+        <option value="videos/test.mp4">CALVIN2</option>
+        <option value="videos/cauliflower1.mp4">BrdigeData_Cauliflowers1</option>
+        <option value="videos/kitchen2.mp4">RealKitchen2</option>
+      </select>
+
+      <video id="successVideoPlayer" controls>
+        <source id="successVideoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <h3 class="title is-4">Failure Case</h3>
+    <div>
+      <select onchange="changeVideo('failure', this)">
+        <option value="videos/calvin.mp4">CALVIN0</option>
+        <option value="videos/kitchen1.mp4">RealKitchen1</option>
+        <option value="videos/cauliflowers.mp4">BrdigeData_Cauliflowers0</option>
+        <option value="videos/blueberry.mp4">BrdigeData_Blueberry0</option>
+      </select>
+
+      <video id="failureVideoPlayer" controls>
+        <source id="failureVideoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+
+<!--    <script>-->
+<!--function changeVideo(successNumber, selectElement) {-->
+<!--    var videoSource = document.getElementById('successVideoSource' + successNumber);-->
+<!--    videoSource.src = selectElement.value;-->
+<!--    // 然后获取对应的video元素，调用其load和play方法-->
+<!--    var videoPlayer = document.getElementById('successVideoPlayer' + successNumber);-->
+<!--    videoPlayer.load();-->
+<!--    videoPlayer.play();-->
+<!--}-->
+
+<!--    </script>-->
+
+
+
+    <script>
+      function changeVideo(type, selectElement) {
+        var videoPlayerId = type === 'success' ? 'successVideoPlayer' : 'failureVideoPlayer';
+        var videoSourceId = type === 'success' ? 'successVideoSource' : 'failureVideoSource';
+
+        var videoPlayer = document.getElementById(videoPlayerId);
+        var videoSource = document.getElementById(videoSourceId);
+
+        // 获取所选视频的文件路径
+        var selectedVideo = selectElement.value;
+
+        // 更新视频的src属性
+        videoSource.src = selectedVideo;
+
+        // 重新加载视频
+        videoPlayer.load();
+
+        // 播放视频
+        videoPlayer.play();
+      }
+    </script>
+
+    <script>
+      function changeVideo(type, selectElement) {
+        var videoPlayerId = type === 'success' ? 'successVideoPlayer' : 'failureVideoPlayer';
+        var videoSourceId = type === 'success' ? 'successVideoSource' : 'failureVideoSource';
+
+        var videoPlayer = document.getElementById(videoPlayerId);
+        var videoSource = document.getElementById(videoSourceId);
+
+        // 获取所选视频的文件路径
+        var selectedVideo = selectElement.value;
+
+        // 更新视频的src属性
+        videoSource.src = selectedVideo;
+
+        // 重新加载视频
+        videoPlayer.load();
+
+        // 播放视频
+        videoPlayer.play();
+      }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+ <hr style="border-top: 5px dotted #b8b8b8;">
+    <h2 class="title is-3">Qualitative Examples</h2>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in visual rearrange long-horizon tasks with multi-modal prompts.</strong>  </p>
+    </div>
+
+
+<!--      <h3 class="title is-4">Main Evaluation on Success Rate</h3>-->
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_9.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in visual reasoning long-horizon tasks with multi-modal prompts.</strong>  </p>
+    </div>
+
+<!-- <hr style="border-top: 5px dotted #b8b8b8;">-->
+<!--    <h2 class="title is-3">Qualitative Examples</h2>-->
+<!--    &lt;!&ndash;/ Hopper. &ndash;&gt;-->
+<!--      <h3 class="title is-4">Main Evaluation on Success Rate</h3>-->
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_10.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in visual constraints long-horizon tasks with multi-modal prompts.</strong>  </p>
+    </div>
+
+
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_11.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in novel generation tasks with novel concept with `stack'.</strong>  </p>
+    </div>
+
+
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_12.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in novel generation tasks with novel concept with `rotate'.</strong>  </p>
+    </div>
+
+
+<hr style="border-top: 5px dotted #b8b8b8;">
+    <!-- Method. -->
+    <!-- <div class="columns">
+      <div class="column is-10 is-offset-1">  -->
+    <h2 class="title is-3">Pseudocodes of CoTDiffusion</h2>
+    <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+<!--      <img style="width: 100%" src="./static/images/AlignDiff_main.svg"/>-->
+      <img style="width: 80%" src="./static/images/table_13.png"/>
+    </div>
+<!--    <div class="content has-text-justified" style="margin-top: 20px;">-->
+<!--      <p class="caption"><br />-->
+<!--        <strong>A motivation example of robotics manipulation tasks in multi-modal instructions.</strong>  The subgoal images are worth a thousand words, inspiring us to propose a novel framework CoTDiffusion to generate goal images step-by-step before act.-->
+<!--      </p>-->
+<!--    </div>-->
+
+<hr style="border-top: 5px dotted #b8b8b8;">
+    <!-- Method. -->
+    <!-- <div class="columns">
+      <div class="column is-10 is-offset-1">  -->
+<!--    <h2 class="title is-3">Conclusion</h2>-->
+<!--              <div class="content has-text-justified">-->
+<!--          <p>-->
+<!--            We presented \alg, a hierarchical framework that integrates diffusion model as high-level module to translate the general multi-modal prompts into coherent subgoal images, serves as the visual milestones to anchor the low-level foundation model to plan action sequences, termed as `generate subgoal images before act'. With the coarse-to-fine training for semantic alignment module, \alg can identify the progress of generated subgoals images along reasoning chains, unlocking the chain-of-thought reasoning capabilities of diffusion model for long-horizon manipulation tasks. The experiments cover various long-horizon manipulation scenarios in \vimabench, and \alg show the strong instruction following and outstanding performance gain compared to existed methods without visual planning.-->
+<!--Incorporating commonsense knowledge from pre-trained MLLM like GPT-4V provides an avenue for more generalizable and promising reasoning in \alg, which leaves as our future work. .-->
+<!--&lt;!&ndash;              \url{https://cotdiffusion.github.io}.</a>.&ndash;&gt;-->
+<!--          </p>-->
+<!--        </div>-->
+
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Conclusion</h2>
+        <div class="content has-text-justified">
+          <p>
+            We presented <strong>CoTDiffusion</strong>, a hierarchical framework that integrates diffusion model as high-level module to translate the general multi-modal prompts into coherent subgoal images, serves as the visual milestones to anchor the low-level foundation model to plan action sequences, termed as <i>generate subgoal images before act</i>. With the coarse-to-fine training for semantic alignment module, CoTDiffusion can identify the progress of generated subgoals images along reasoning chains, unlocking the chain-of-thought reasoning capabilities of diffusion model for long-horizon manipulation tasks. The experiments cover various long-horizon manipulation scenarios in VIMA-BENCH, and CoTDiffusion shows the strong instruction following and outstanding performance gain compared to existed methods without visual planning.
+Incorporating commonsense knowledge from pre-trained MLLM like GPT-4V provides an avenue for more generalizable and promising reasoning in CoTDiffusion, which leaves as our future work. .
+<!--              \url{https://cotdiffusion.github.io}.</a>.-->
+          </p>
+        </div>
+      </div>
+    </div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://cotdiffusion.github.io/" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://cotdiffusion.github.io/">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+    </main>
+  </body>
+</html>
