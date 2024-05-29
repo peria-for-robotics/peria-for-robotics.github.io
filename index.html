@@ -57,6 +57,43 @@
 
 
 
+    <script>
+        var task_map = {
+            "blocks_moving": "blocks_move",
+            "blocks_matching": "blocks_matching",
+            "blocks_stack": "blocks_stack",
+            "letters_shape": "letters_shape",
+            "letters_orders": "letters_orders",
+            "letters_spell": "letters_spell",
+            "vima_rearrange": "vima_rearrange",
+            "vima_follow": "vima_follow",
+            "vima_constraints": "vima_constraints",
+        };
+
+        function updateDemoVideo(category) {
+            // var demo = document.getElementById("single-menu-demos").value;
+            var task = document.getElementById(category + "-menu-tasks").value;
+            var inst = document.getElementById(category + "-menu-instances").value;
+
+            console.log(task_map[category], task, inst)
+
+            var video = document.getElementById(category + "-single-task-video");
+            video.src = "videos/demos/" +
+                task_map[category] +
+                "/" +
+                task +
+                "/" +
+                inst +
+                ".mp4";
+            video.playbackRate = 2.0;
+            video.play();
+        }
+    </script>
+
+
+
+
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
   <script>
@@ -353,31 +390,43 @@ The semantic alignment module is then integrated into the diffusion model for st
           <div style="display: flex; margin: auto; justify-content: center; width: 100%">
       <img style="width: 98%" src="./static/images/main_results.png"/>
     </div>
-    <div class="content has-text-justified" style="margin-top: 20px;">
+    <div
+          <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
       <p class="caption"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-          The baselines can be divided into two kinds of planners, including <strong>abstract planner</strong> and <strong>visual planner</strong>.
-<strong>Abstract planner</strong> like Gato, Flamingo and VIMA directly map general prompts to subsequent actions in an end-to-end manner. Gato and Flamingo gets low success rates on long-horizon tasks without explicit subgoal generation to correct the accumulative deviation errors from the instructions.
-In contrast, <strong>visual planner</strong> like SuSIE and CoTDiffusion can generate intermediate goal images to guide the action planning, which can enhance instruction following for long-horizon tasks via visual planning.   </p>
-    </div>
+<p>
+The baselines can be categorized into three types of planners: <em>e2e planner</em>, <em>language planner</em>, and <em>visual planner</em>.
+        As expected, the end-to-end learning method performs the worst due to the lack of intermediate guidance, making it difficult for the policy to follow general instructions for long-horizon tasks. In contrast, the <em>visual planner</em> paradigm, which explicitly decomposes tasks into stepwise instructions and employs a hierarchical framework consisting of a language planner and a language-conditioned policy, shows more promise and demonstrates a clear advantage over the end-to-end approach.
+        The <em>visual planner</em> paradigm, which generates intermediate keyframes, offers more intuitive guidance compared to language planning, and its advantage is more evident in VIMA-BENCH, where sub-tasks are challenging to describe sufficiently using language-only instructions.
+        Our <em>PERIA</em> introduces an MLLM for explicit reasoning and generation, providing more sufficient and reliable intermediate guidance for instruction following in long-horizon tasks.
+</p>
+  </div>
 
       <h3 class="title is-4"> Accuracy of Language Planning</h3>
           <div style="display: flex; margin: auto; justify-content: center; width: 100%">
       <img style="width: 90%" src="./static/images/results_2.pdf"/>
     </div>
-    <div class="content has-text-justified" style="margin-top: 20px;">
+    <div
+            <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
       <p class="caption"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-          The experiments demonstrate that CoTDiffusion enjoys better robustness to restricted perception than abstract planners, highlighting the benefits of hierarchical framework decoupled visual planning and action planning. Accurate and grounded subgoal images generated in visual planners provide supplemental visual context, which can partly compensate for the insufficient perception to aid robustness under single-view.
-The requirements for the low-level action planner are reduced to basic single-object manipulation primitives in short horizon by providing coherent subgoal images as visual landmarks, with less reliance on rich visual perceptions.   </div>
+<em>PERIA</em> demonstrates the highest accuracy in both token-level and semantic-level comparisons.
+Although PAR introduces LLMs for language planning, it relies on an isolated, out-of-the-shell VLM as a captioner to convert visual observations into language descriptions, which may cause details missing during hard captioning.
+    By jointly fine-tuning MLLM using the additional image generation loss, the supervision from visual aspects encourages promoting attention to visual details and spatial information for more grounded reasoning.
+    </div>
 
 
-      <h3 class="title is-4">Fidelity of Vision Planning</h3>
-    <div class="content has-text-justified" style="margin-top: 20px;">
+          <h3 class="title is-4"> Fidelity of Vision Planning</h3>
+    <div
+            <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
       <p class="caption"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-          With step-wise sub-prompts decomposed in advance, the performance of SuSIE gets largely raised but still underperforms CoTDiffusion, which has no need to explicitly decompose the general prompts and can generate subgoal images in an implicit chain-of-thought manner. The coarse-to-fine semantic alignment training training allows developing spatial reasoning prior to synthesis.
-Frame concatenation further guides coherent denoising by providing rich context information as visual priors to ground the current observation and enhance the fidelity of generation.  </div>
+<em>PERIA</em> demonstrates the highest accuracy in both token-level and semantic-level comparisons.
+Although PAR introduces LLMs for language planning, it relies on an isolated, out-of-the-shell VLM as a captioner to convert visual observations into language descriptions, which may cause details missing during hard captioning.
+    By jointly fine-tuning MLLM using the additional image generation loss, the supervision from visual aspects encourages promoting attention to visual details and spatial information for more grounded reasoning.
+    </div>
+
+
 
 
       <h3 class="title is-4">Accuracy of Instruction Following</h3>
@@ -421,14 +470,13 @@ Frame concatenation further guides coherent denoising by providing rich context 
 
     <h3 class="title is-4">Blocks&Bowls</h3>
 
-
                     <div class="columns">
                         <!-- Visual Constraint Satisfaction -->
                         <div class="column has-text-left">
                             <h3 class="title is-5">Move</h3>
                             <div class="select is-medium">
-                                <select id="visual-constraint-satisfaction-menu-tasks"
-                                        onchange="updateDemoVideo('visual-constraint-satisfaction')"
+                                <select id="blocks_moving-menu-tasks"
+                                        onchange="updateDemoVideo('blocks_moving')"
                                         style="width: 220px;">
                                     <option value="MoveBlocktoArea" selected="selected">MoveBlocktoArea
                                     </option>
@@ -438,8 +486,8 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-constraint-satisfaction-menu-instances"
-                                        onchange="updateDemoVideo('visual-constraint-satisfaction')">
+                                <select id="blocks_moving-menu-instances"
+                                        onchange="updateDemoVideo('blocks_moving')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -447,12 +495,11 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-constraint-satisfaction-single-task-video"
+                            <video id="blocks_moving-single-task-video"
                                    controls
                                    muted
                                    autoplay
                                    loop
-                                   playbackRate="2.0"
                                    width="100%">
                                 <source src="videos/test.mp4"
                                         type="video/mp4">
@@ -463,19 +510,19 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Stack</h3>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')"
+                                <select id="blocks_stack-menu-tasks" onchange="updateDemoVideo('blocks_stack')"
                                                                         style="width: 220px;">
-                                    <option value="manipulate_old_neighbor" selected="selected">
+                                    <option value="StackAllBlocks" selected="selected">
                                         StackAllBlocks
                                     </option>
-                                    <option value="pick_in_order_then_restore">StackBlocksOfSameSize</option>
-                                    <option value="same_color">StackBlocksOfSameColor</option>
-                                    <option value="same_profile">StackColorBlockstoArea</option>
+                                    <option value="StackBlocksOfSameSize">StackBlocksOfSameSize</option>
+                                    <option value="StackBlocksOfSameColor">StackBlocksOfSameColor</option>
+                                    <option value="StackColorBlockstoArea">StackColorBlockstoArea</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-instances"
-                                        onchange="updateDemoVideo('visual-reasoning')">
+                                <select id="blocks_stack-menu-instances"
+                                        onchange="updateDemoVideo('blocks_stack')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -483,13 +530,13 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-reasoning-single-task-video"
+                            <video id="blocks_stack-single-task-video"
                                    controls
                                    muted
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/test.mp4"
+                                <source src="videos/demos/blocks_stack/StackBlocksOfSameSize/2.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
@@ -498,17 +545,17 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Matching</h3>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')"
+                                <select id="blocks_matching-menu-tasks" onchange="updateDemoVideo('blocks_matching')"
                                         style="width: 220px;">
-                                    <option value="manipulate_old_neighbor" selected="selected">PutBlockInMatchingBowl
+                                    <option value="PutBlockInMatchingBowl" selected="selected">PutBlockInMatchingBowl
                                     </option>
-                                    <option value="pick_in_order_then_restore">PutBlockInMismatchingBowl</option>
-                                    <option value="same_color">PutBlockinZonewithMatchingColor</option>
+                                    <option value="PutBlockInMismatchingBowl">PutBlockInMismatchingBowl</option>
+                                    <option value="PutBlockinZonewithMatchingColor">PutBlockinZonewithMatchingColor</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-instances"
-                                        onchange="updateDemoVideo('visual-reasoning')">
+                                <select id="blocks_matching-menu-instances"
+                                        onchange="updateDemoVideo('blocks_matching')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -516,7 +563,7 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-reasoning-single-task-video"
+                            <video id="blocks_matching-single-task-video"
                                    controls
                                    muted
                                    autoplay
@@ -530,6 +577,7 @@ Frame concatenation further guides coherent denoising by providing rich context 
                     </div>
 
 
+
       <h3 class="title is-4">Letters</h3>
 
 
@@ -538,18 +586,18 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Shape</h3>
                             <div class="select is-medium">
-                                <select id="visual-constraint-satisfaction-menu-tasks"
-                                        onchange="updateDemoVideo('visual-constraint-satisfaction')"
+                                <select id="letters_shape-menu-tasks"
+                                        onchange="updateDemoVideo('letters_shape')"
                                         style="width: 220px;">
-                                    <option value="MoveBlocktoArea" selected="selected">SortVerticalSymmBlockstoArea
+                                    <option value="SortVerticalSymmBlockstoArea" selected="selected">SortVerticalSymmBlockstoArea
                                     </option>
-                                    <option value="sweep_without_touching">SortHorizontalSymmBlockstoArea</option>
-                                    <option value="sweep_without_touching">SortCentralSymmBlockstoArea</option>
+                                    <option value="SortHorizontalSymmBlockstoArea">SortHorizontalSymmBlockstoArea</option>
+                                    <option value="SortCentralSymmBlockstoArea">SortCentralSymmBlockstoArea</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-constraint-satisfaction-menu-instances"
-                                        onchange="updateDemoVideo('visual-constraint-satisfaction')">
+                                <select id="letters_shape-menu-instances"
+                                        onchange="updateDemoVideo('letters_shape')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -557,12 +605,11 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-constraint-satisfaction-single-task-video"
+                            <video id="letters_shape-single-task-video"
                                    controls
                                    muted
                                    autoplay
                                    loop
-                                   playbackRate="2.0"
                                    width="100%">
                                 <source src="videos/test.mp4"
                                         type="video/mp4">
@@ -573,19 +620,18 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Orders</h3>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')"
+                                <select id="letters_orders-menu-tasks" onchange="updateDemoVideo('letters_orders')"
                                                                         style="width: 220px;">
-                                    <option value="manipulate_old_neighbor" selected="selected">
-                                        StackAllBlocks
+                                    <option value="PutLettersAlphabeticalOrder" selected="selected">
+                                        PutLettersAlphabeticalOrder
                                     </option>
-                                    <option value="pick_in_order_then_restore">PutLettersAlphabeticalOrder</option>
-                                    <option value="same_color">PutLettersRevAlphabeticalOrder</option>
-                                    <option value="same_profile">SortConsLettersOrder</option>
+                                    <option value="PutLettersRevAlphabeticalOrder">PutLettersRevAlphabeticalOrder</option>
+                                    <option value="SortConsLettersOrder">SortConsLettersOrder</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-instances"
-                                        onchange="updateDemoVideo('visual-reasoning')">
+                                <select id="letters_orders-menu-instances"
+                                        onchange="updateDemoVideo('letters_orders')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -593,7 +639,7 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-reasoning-single-task-video"
+                            <video id="letters_orders-single-task-video"
                                    controls
                                    muted
                                    autoplay
@@ -608,17 +654,17 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Spell</h3>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')"
+                                <select id="letters_spell-menu-tasks" onchange="updateDemoVideo('letters_spell')"
                                         style="width: 220px;">
-                                    <option value="manipulate_old_neighbor" selected="selected">SpellLongWords
+                                    <option value="SpellLongWords" selected="selected">SpellLongWords
                                     </option>
-                                    <option value="pick_in_order_then_restore">SpellCSConfName</option>
-                                    <option value="same_color">SpellTransName</option>
+                                    <option value="SpellCSConfName">SpellCSConfName</option>
+                                    <option value="SpellTransName">SpellTransName</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-instances"
-                                        onchange="updateDemoVideo('visual-reasoning')">
+                                <select id="letters_spell-menu-instances"
+                                        onchange="updateDemoVideo('letters_spell')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -626,7 +672,7 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-reasoning-single-task-video"
+                            <video id="letters_spell-single-task-video"
                                    controls
                                    muted
                                    autoplay
@@ -652,16 +698,16 @@ Frame concatenation further guides coherent denoising by providing rich context 
                             <h3 class="title is-5">Rearrange</h3>
                             <div class="select is-medium">
                                 <select id="visual-constraint-satisfaction-menu-tasks"
-                                        onchange="updateDemoVideo('visual-constraint-satisfaction')"
+                                        onchange="updateDemoVideo('vima_rearrange')"
                                         style="width: 220px;">
-                                    <option value="MoveBlocktoArea" selected="selected">RearrangeObjtoGoal
+                                    <option value="RearrangeObjtoGoal" selected="selected">RearrangeObjtoGoal
                                     </option>
-                                    <option value="sweep_without_touching">RearrangeObjtoGoalthenRestore</option>
+                                    <option value="RearrangeObjtoGoalthenRestore">RearrangeObjtoGoalthenRestore</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-constraint-satisfaction-menu-instances"
-                                        onchange="updateDemoVideo('visual-constraint-satisfaction')">
+                                <select id="vima_rearrange-menu-instances"
+                                        onchange="updateDemoVideo('vima_rearrange')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -669,12 +715,11 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-constraint-satisfaction-single-task-video"
+                            <video id="vima_rearrange-single-task-video"
                                    controls
                                    muted
                                    autoplay
                                    loop
-                                   playbackRate="2.0"
                                    width="100%">
                                 <source src="videos/test.mp4"
                                         type="video/mp4">
@@ -685,20 +730,19 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Constraints</h3>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')"
+                                <select id="vima_constraints-menu-tasks" onchange="updateDemoVideo('vima_constraints')"
                                                                         style="width: 220px;">
-                                    <option value="manipulate_old_neighbor" selected="selected">
-                                        StackAllBlocks
+                                    <option value="SweepNoExceedCons" selected="selected">
+                                        SweepNoExceedCons
                                     </option>
-                                    <option value="pick_in_order_then_restore">SweepNoExceedCons</option>
-                                    <option value="same_color">SweepNoTouchCons</option>
-                                    <option value="same_profile">PutSameTextfromGoal</option>
-                                    <option value="same_profile">PutSameShapefromGoal</option>
+                                    <option value="SweepNoTouchCons">SweepNoTouchCons</option>
+                                    <option value="PutSameTextfromGoal">PutSameTextfromGoal</option>
+                                    <option value="same_proPutSameShapefromGoalfile">PutSameShapefromGoal</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-instances"
-                                        onchange="updateDemoVideo('visual-reasoning')">
+                                <select id="vima_constraints-menu-instances"
+                                        onchange="updateDemoVideo('vima_constraints')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -706,7 +750,7 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-reasoning-single-task-video"
+                            <video id="vima_constraints-single-task-video"
                                    controls
                                    muted
                                    autoplay
@@ -721,16 +765,16 @@ Frame concatenation further guides coherent denoising by providing rich context 
                         <div class="column has-text-left">
                             <h3 class="title is-5">Follow</h3>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-tasks" onchange="updateDemoVideo('visual-reasoning')"
+                                <select id="vima_follow-menu-tasks" onchange="updateDemoVideo('vima_follow')"
                                         style="width: 220px;">
-                                    <option value="manipulate_old_neighbor" selected="selected">FollowMotionObj
+                                    <option value="FollowMotionObj" selected="selected">FollowMotionObj
                                     </option>
-                                    <option value="pick_in_order_then_restore">StackObjFollow</option>
+                                    <option value="StackObjFollow">StackObjFollow</option>
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="visual-reasoning-menu-instances"
-                                        onchange="updateDemoVideo('visual-reasoning')">
+                                <select id="vima_follow-menu-instances"
+                                        onchange="updateDemoVideo('vima_follow')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -738,7 +782,7 @@ Frame concatenation further guides coherent denoising by providing rich context 
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="visual-reasoning-single-task-video"
+                            <video id="vima_follow-single-task-video"
                                    controls
                                    muted
                                    autoplay
@@ -796,29 +840,6 @@ Frame concatenation further guides coherent denoising by providing rich context 
 <!--    </div>-->
 <!--</div>-->
 
-
-
-    <script>
-      function changeVideo(type, selectElement) {
-        var videoPlayerId = type === 'success' ? 'successVideoPlayer' : 'failureVideoPlayer';
-        var videoSourceId = type === 'success' ? 'successVideoSource' : 'failureVideoSource';
-
-        var videoPlayer = document.getElementById(videoPlayerId);
-        var videoSource = document.getElementById(videoSourceId);
-
-        // 获取所选视频的文件路径
-        var selectedVideo = selectElement.value;
-
-        // 更新视频的src属性
-        videoSource.src = selectedVideo;
-
-        // 重新加载视频
-        videoPlayer.load();
-
-        // 播放视频
-        videoPlayer.play();
-      }
-    </script>
 
 
 
