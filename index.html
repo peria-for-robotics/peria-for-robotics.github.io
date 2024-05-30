@@ -59,7 +59,7 @@
 
     <script>
         var task_map = {
-            "blocks_moving": "blocks_move",
+            "blocks_move": "blocks_move",
             "blocks_matching": "blocks_matching",
             "blocks_stack": "blocks_stack",
             "letters_shape": "letters_shape",
@@ -475,8 +475,8 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                         <div class="column has-text-left">
                             <h3 class="title is-5">Move</h3>
                             <div class="select is-medium">
-                                <select id="blocks_moving-menu-tasks"
-                                        onchange="updateDemoVideo('blocks_moving')"
+                                <select id="blocks_move-menu-tasks"
+                                        onchange="updateDemoVideo('blocks_move')"
                                         style="width: 220px;">
                                     <option value="MoveBlocktoArea" selected="selected">MoveBlocktoArea
                                     </option>
@@ -486,8 +486,8 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                 </select>
                             </div>
                             <div class="select is-medium">
-                                <select id="blocks_moving-menu-instances"
-                                        onchange="updateDemoVideo('blocks_moving')">
+                                <select id="blocks_move-menu-instances"
+                                        onchange="updateDemoVideo('blocks_move')">
                                     <option value="1" selected="selected">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -495,13 +495,13 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                     <option value="5">5</option>
                                 </select>
                             </div>
-                            <video id="blocks_moving-single-task-video"
+                            <video id="blocks_move-single-task-video"
                                    controls
                                    muted
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/demos/blocks_moving/MoveBlocktoArea/1.mp4"
+                                <source src="videos/demos/blocks_move/MoveBlocktoArea/1.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
@@ -536,7 +536,7 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/demos/blocks_stack/StackBlocksOfSameSize/2.mp4"
+                                <source src="videos/demos/blocks_stack/StackBlocksOfSameSize/1.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
@@ -569,7 +569,7 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/test.mp4"
+                                <source src="videos/demos/blocks_matching/PutBlockInMatchingBowl/1.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
@@ -611,7 +611,7 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/test.mp4"
+                                <source src="videos/demos/letters_shape/SortVerticalSymmBlockstoArea/1.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
@@ -645,7 +645,7 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/test.mp4"
+                                <source src="videos/demos/letters_orders/PutLettersAlphabeticalOrder/1.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
@@ -678,7 +678,7 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
                                    autoplay
                                    loop
                                    width="100%">
-                                <source src="videos/test.mp4"
+                                <source src="videos/demos/letters_spell/SpellLongWords/1.mp4"
                                         type="video/mp4">
                             </video>
                         </div>
