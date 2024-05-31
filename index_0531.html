@@ -188,7 +188,7 @@
 
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://peria-for-robotics.github.io/"
+                <a href="https://cotdiffusion.github.io/"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -419,7 +419,7 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
           <h3 class="title is-4"> Fidelity of Vision Planning</h3>
     <div
             <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
-<!--      <p class="caption"><br />-->
+      <p class="caption"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
 <em>PERIA</em> demonstrates the highest accuracy in both token-level and semantic-level comparisons.
 Although PAR introduces LLMs for language planning, it relies on an isolated, out-of-the-shell VLM as a captioner to convert visual observations into language descriptions, which may cause details missing during hard captioning.
@@ -427,50 +427,38 @@ Although PAR introduces LLMs for language planning, it relies on an isolated, ou
     </div>
 
 
-          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-      <img style="width: 98%" src="./static/images/results_3.png"/>
-    </div>
 
-          <p class="caption"><br />
 
-      <h3 class="title is-4">Consistency between Reasoning and Imagining</h3>
+      <h3 class="title is-4">Accuracy of Instruction Following</h3>
     <div class="content has-text-justified" style="margin-top: 20px;">
-
+      <p class="caption"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-<p>
-We leverage CLIP to measure the image-language similarity between generated instructions and images.
-The additional consistency alignment loss explicitly constraints and encourages semantic alignment between the imagined images from vision planning and the reasoned stepwise instructions from language planning, significantly enhancing the collaboration and consistency between the two modalities. Furthermore, increasing the number of <code>[IMG]</code> tokens provides more expressive and sufficient guidance, facilitating the MLLM in producing semantically coherent language and image tokens.
-However, the benefit of adding more tokens becomes marginal beyond a certain threshold.
-</p>
-
-    </div>
-
-
-
-          <h3 class="title is-4">Effectiveness of Holistic Planning</h3>
-    <div class="content has-text-justified" style="margin-top: 20px;">
-
-        We modify the low-level policy model into several variants, including ones that simultaneously utilize stepwise instructions and subgoal images, as well as those that rely on each modality individually.
-The holistic planning approach achieves the highest success rate than single planning, with the benefit of the increased amount of information available and rich multi-modal guidance for decision-making, which reduces the training difficulty of low-level policy and enhance the accuracy of action prediction.
-Moreover, the advantage of holistic planning becomes more evident as the horizon length increases, demonstrating its scalability and effectiveness in handling complex, long-horizon manipulation tasks.
-
-    </div>
-
-
+          We evaluate instruction following accuracy via CLIP similarity between generated keyframes and general prompts, normalized by the CLIP score between ground truth ultimate goal image and prompts. Without chain-of-thought reasoning abilities, SuSIE struggles to follow instructions when given general multi-modal prompts, let alone generate subgoal images with smooth progressions. The coarse alignment pretraining and bi-directional generation can assist CoTDiffusion in tracking the progress of generated keyframes throughout the entire chain and generate sequenced keyframes incrementally advancing prompt instructions.</div>
 
 
       <h3 class="title is-4">Generalization across Tasks</h3>
     <div class="content has-text-justified" style="margin-top: 20px;">
-<!--      <p class="caption"><br />-->
+      <p class="caption"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-We evaluate the generalization ability in three levels with increasing difficulty: placement generalization with novel placement of objects (L1), object generalization with novel objects (L2), and combinatorial generalization with extra novel instructions (L3).
-The results demonstrate that <em>PERIA</em> enjoys a substantial advantage over other baselines, highlighting the importance of the common knowledge prior within the MLLM and diffusion model and holistic planning, which enhance the generalization and robustness for unseen challenging tasks.
-
-
+          We evaluate the generalization ability in three levels with increasing difficulty: placement generalization which randomizes the novel placement of objects (L1), object generalization which provides the objects with novel attributes (L2), and  task combinatorial generalization which complexes the prompts with extra novel instruction (L3).
+    When CoTDiffusion visualizes novel concepts into goal images, the foundation model can still accomplish the stack by simply achieving the provided subgoal, with no need to inherently understand novel skills like stack.
     </div>
 
 
+      <h3 class="title is-4">Ablation Studies of Horizon Length</h3>
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          We conduct an additional experiment by increasing the number of objects and the corresponding manipulation steps to evaluate the success rate of different methods on more complex and longer-horizon manipulation tasks. The results demonstrate that CoTDiffusion enjoys better robustness for longer horizons compared to abstract planners, with the benefit from the explicit visual subgoals providing improved guidance for following complex instructions.    </div>
 
+
+
+      <h3 class="title is-4">Ablation Studies of Model Capacity</h3>
+
+    <div class="content has-text-justified" style="margin-top: 20px;">
+      <p class="caption"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+          We conduct additional ablation experiments on the model capacity of some key components, including the semantic alignment module, T5 tokenizer, and low-level foundation model. Based on the experiments, we chose T5-base, a 20M semantic alignment module, and a 40M foundation model as our final model configuration. </div>
 
 
 
@@ -478,7 +466,7 @@ The results demonstrate that <em>PERIA</em> enjoys a substantial advantage over 
 
  <hr style="border-top: 5px dotted #b8b8b8;">
     
-    <h2 class="title is-3">Examples of Tasks with General Complex Instructions </h2>
+    <h2 class="title is-3">More Visual Examples of Tasks with general complex </h2>
 
     <h3 class="title is-4">Blocks&Bowls</h3>
 
@@ -699,12 +687,115 @@ The results demonstrate that <em>PERIA</em> enjoys a substantial advantage over 
 
 
 
-<!-- <h3 class="title is-4">Ablation Studies of Model Capacity</h3>-->
 
-<!--    <div class="content has-text-justified" style="margin-top: 20px;">-->
-<!--      <p class="caption"><br />-->
-<!--&lt;!&ndash;        <strong>The two phases of coarse-to-fine alignment module .</strong> &ndash;&gt;-->
-<!--          We conduct additional ablation experiments on the model capacity of some key components, including the semantic alignment module, T5 tokenizer, and low-level foundation model. Based on the experiments, we chose T5-base, a 20M semantic alignment module, and a 40M foundation model as our final model configuration. </div>-->
+
+      <h3 class="title is-4">VIMA-BENCH</h3>
+
+
+                    <div class="columns">
+                        <!-- Visual Constraint Satisfaction -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Rearrange</h3>
+                            <div class="select is-medium">
+                                <select id="visual-constraint-satisfaction-menu-tasks"
+                                        onchange="updateDemoVideo('vima_rearrange')"
+                                        style="width: 220px;">
+                                    <option value="RearrangeObjtoGoal" selected="selected">RearrangeObjtoGoal
+                                    </option>
+                                    <option value="RearrangeObjtoGoalthenRestore">RearrangeObjtoGoalthenRestore</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="vima_rearrange-menu-instances"
+                                        onchange="updateDemoVideo('vima_rearrange')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="vima_rearrange-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="videos/test.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+                        <!-- Visual Reasoning -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Constraints</h3>
+                            <div class="select is-medium">
+                                <select id="vima_constraints-menu-tasks" onchange="updateDemoVideo('vima_constraints')"
+                                                                        style="width: 220px;">
+                                    <option value="SweepNoExceedCons" selected="selected">
+                                        SweepNoExceedCons
+                                    </option>
+                                    <option value="SweepNoTouchCons">SweepNoTouchCons</option>
+                                    <option value="PutSameTextfromGoal">PutSameTextfromGoal</option>
+                                    <option value="same_proPutSameShapefromGoalfile">PutSameShapefromGoal</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="vima_constraints-menu-instances"
+                                        onchange="updateDemoVideo('vima_constraints')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="vima_constraints-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="videos/test.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+                                                <!-- Visual Reasoning -->
+                        <div class="column has-text-left">
+                            <h3 class="title is-5">Follow</h3>
+                            <div class="select is-medium">
+                                <select id="vima_follow-menu-tasks" onchange="updateDemoVideo('vima_follow')"
+                                        style="width: 220px;">
+                                    <option value="FollowMotionObj" selected="selected">FollowMotionObj
+                                    </option>
+                                    <option value="StackObjFollow">StackObjFollow</option>
+                                </select>
+                            </div>
+                            <div class="select is-medium">
+                                <select id="vima_follow-menu-instances"
+                                        onchange="updateDemoVideo('vima_follow')">
+                                    <option value="1" selected="selected">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                            <video id="vima_follow-single-task-video"
+                                   controls
+                                   muted
+                                   autoplay
+                                   loop
+                                   width="100%">
+                                <source src="videos/test.mp4"
+                                        type="video/mp4">
+                            </video>
+                        </div>
+
+                    </div>
+
+
 
 
 
@@ -748,53 +839,91 @@ The results demonstrate that <em>PERIA</em> enjoys a substantial advantage over 
 <!--        </video>-->
 <!--    </div>-->
 <!--</div>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
  <hr style="border-top: 5px dotted #b8b8b8;">
-<h2 class="title is-3">Furthur Analysis </h2>
-
-
-
-          <h3 class="title is-4"> The Effect of Encoding-side Alignment</h3>
-              <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-      <img style="width: 50%" src="./static/images/test_v11.pdf"/>
-    </div>
-    <div
-            <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
-<!--      <p class="caption"><br />-->
+    <h2 class="title is-3">Qualitative Examples</h2>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-Our results between <em>PERIA</em>  and EmbodiedGPT demonstrate that carefully designed captioning tasks can significantly enhance the MLLM's performance across various foundational perceiving capabilities. When we remove the perception pretraining with encoding-side alignment, we observe more frequent hallucinations and errors in the designed VQA evaluations.
-It is worth noting that even the ablated version of perception pretraining still shows some advantage over EmbodiedGPT, which can be attributed to the additional image generation loss. The supervision from visual aspects encourages attention to visual details and spatial information for more grounded reasoning.
-                </div>
 
-          <h3 class="title is-4"> The Effect of Joint Training</h3>
-              <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-      <img style="width: 60%" src="./static/images/app_c4.pdf"/>
+<strong>Visualization of CoTDiffusion and VIMA in visual rearrange long-horizon tasks with multi-modal prompts.</strong>  </p>
     </div>
-    <div
-            <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
-<!--      <p class="caption"><br />-->
-<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-To verify the effectiveness of language planning and vision planning, we conduct an ablation study by decoupling the training of reasoning and imaging. First, we train the MLLM solely for reasoning, generating text tokens to predict stepwise instructions. Subsequently, we use only the text tokens from the stepwise instructions as conditional information to train the image editing model. It is important to note that this differs from the visual fidelity experiment mentioned in the main text, as the <IMG> tokens are entirely set to zero, and the absence of joint training eliminates the consistency loss.
-We introduce a semantic similarity metric to evaluate instruction following accuracy. Specifically, we calculate the CLIP similarity between generated subgoal images and general prompts, normalized by the CLIP score between the ground truth ultimate goal image and prompts. This metric reflects the progress of generated subgoal images throughout the entire chain, tracking the instruction following and gradual advancement towards ultimate goals specified by complex instructions.
-                </div>
 
 
-          <h3 class="title is-4"> The Flexibility of LLM Backbones</h3>
-              <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-      <img style="width: 40%" src="./static/images/test_v12.pdf"/>
+<!--      <h3 class="title is-4">Main Evaluation on Success Rate</h3>-->
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_9.png"/>
     </div>
-    <div
-            <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
-<!--      <p class="caption"><br />-->
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
 <!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
-To comprehensively compare the impact of different LLMs as backbones on the capabilities of the  <em>PERIA</em> framework, we experiment with various LLMs backbones for fine-tuning
-                The results show that Vicuna-13B outperforms Vicuna-7B, indicating that larger model sizes can bring performance gains. However, the more recent and powerful LLaMA-3-8B surpasses both Vicuna models, demonstrating that our framework can achieve substantial improvements and enhancements by leveraging stronger LLM backbones.
+
+<strong>Visualization of CoTDiffusion and VIMA in visual reasoning long-horizon tasks with multi-modal prompts.</strong>  </p>
+    </div>
+
+<!-- <hr style="border-top: 5px dotted #b8b8b8;">-->
+<!--    <h2 class="title is-3">Qualitative Examples</h2>-->
+<!--    &lt;!&ndash;/ Hopper. &ndash;&gt;-->
+<!--      <h3 class="title is-4">Main Evaluation on Success Rate</h3>-->
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_10.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in visual constraints long-horizon tasks with multi-modal prompts.</strong>  </p>
+    </div>
 
 
-            </div>
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_11.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in novel generation tasks with novel concept with `stack'.</strong>  </p>
+    </div>
 
 
+          <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+      <img style="width: 66%" src="./static/images/table_12.png"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 20px;  justify-content: center;">
+      <p class="caption" style="text-align:center;"><br />
+<!--        <strong>The two phases of coarse-to-fine alignment module .</strong> -->
+
+<strong>Visualization of CoTDiffusion and VIMA in novel generation tasks with novel concept with `rotate'.</strong>  </p>
+    </div>
 
 
+<hr style="border-top: 5px dotted #b8b8b8;">
+    <!-- Method. -->
+    <!-- <div class="columns">
+      <div class="column is-10 is-offset-1">  -->
+    <h2 class="title is-3">Pseudocodes of CoTDiffusion</h2>
+    <div style="display: flex; margin: auto; justify-content: center; width: 100%">
+<!--      <img style="width: 100%" src="./static/images/AlignDiff_main.svg"/>-->
+      <img style="width: 80%" src="./static/images/table_13.png"/>
+    </div>
+<!--    <div class="content has-text-justified" style="margin-top: 20px;">-->
+<!--      <p class="caption"><br />-->
+<!--        <strong>A motivation example of robotics manipulation tasks in multi-modal instructions.</strong>  The subgoal images are worth a thousand words, inspiring us to propose a novel framework CoTDiffusion to generate goal images step-by-step before act.-->
+<!--      </p>-->
+<!--    </div>-->
 
 <hr style="border-top: 5px dotted #b8b8b8;">
     <!-- Method. -->
@@ -815,12 +944,9 @@ To comprehensively compare the impact of different LLMs as backbones on the capa
         <h2 class="title is-3">Conclusion</h2>
         <div class="content has-text-justified">
           <p>
-            <p>
-We propose <strong>PERIA</strong> (<strong>P</strong>erceive, <strong>E</strong>eason, <strong>I</strong>magine, <strong>A</strong>ct), a novel framework that integrates MLLM and diffusion-based image editing models to enable holistic language and vision planning for long-horizon manipulation tasks with complex instructions. We first perform a lightweight multi-modal alignment to enhance the MLLM's fundamental perception capabilities of visual details for manipulation, alleviating potential hallucinations. Then, we encourage MLLM to output rich latent visual tokens to guide diffusion model in generating images and explicitly align language instructions with visual subgoals to simultaneously unlock MLLM's reasoning and diffusion model's imagination capabilities.
-Extensive evaluations across three challenging benchmarks demonstrate that PERIA significantly outperforms competitive baselines in both instruction following accuracy and task success rate, while also enjoying better generalization ability across tasks.
-We believe PERIA highlights the potential of holistic language and vision planning and we hope this novel paradigm can provide some insights to robotics manipulation research of long-horizon tasks with complex instructions in free-form, towards more open embodied scenarios.
-One current bottleneck is the relatively high time cost of training and inference. Improving the joint training efficiency of MLLMs and diffusion models in a lightweight manner and accelerating image generation sampling are interesting directions for future work.
-</p>
+            We presented <strong>CoTDiffusion</strong>, a hierarchical framework that integrates diffusion model as high-level module to translate the general multi-modal prompts into coherent subgoal images, serves as the visual milestones to anchor the low-level foundation model to plan action sequences, termed as <i>generate subgoal images before act</i>. With the coarse-to-fine training for semantic alignment module, CoTDiffusion can identify the progress of generated subgoals images along reasoning chains, unlocking the chain-of-thought reasoning capabilities of diffusion model for long-horizon manipulation tasks. The experiments cover various long-horizon manipulation scenarios in VIMA-BENCH, and CoTDiffusion shows the strong instruction following and outstanding performance gain compared to existed methods without visual planning.
+Incorporating commonsense knowledge from pre-trained MLLM like GPT-4V provides an avenue for more generalizable and promising reasoning in CoTDiffusion, which leaves as our future work. .
+<!--              \url{https://cotdiffusion.github.io}.</a>.-->
           </p>
         </div>
       </div>
