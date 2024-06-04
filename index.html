@@ -223,7 +223,7 @@
         <div class="content has-text-justified">
           <p>
 Long-horizon manipulation tasks with general instructions often implicitly encapsulate multiple sub-tasks, posing significant challenges in instruction following.
-While language planning is a common approach to decompose general instructions into stepwise sub-instructions, text-only guidance may lack expressiveness and lead to potential ambiguity. Considering that humans often imagine and visualize sub-instructions reasoning out before acting, the imagined subgoal images can provide more intuitive guidance and enhance the reliability of decomposition. Inspired by this, we propose \textbf{PERIA}(\textbf{PErceive, Reason, Imagine, Act}), a novel framework that integrates holistic language planning and vision planning for long-horizon manipulation tasks with complex instructions, leveraging both logical and intuitive aspects of task decomposition.
+While language planning is a common approach to decompose general instructions into stepwise sub-instructions, text-only guidance may lack expressiveness and lead to potential ambiguity. Considering that humans often imagine and visualize sub-instructions reasoning out before acting, the imagined subgoal images can provide more intuitive guidance and enhance the reliability of decomposition. Inspired by this, we propose <strong>PERIA</strong>(<strong>PErceive, Reason, Imagine, Act</strong>), a novel framework that integrates holistic language planning and vision planning for long-horizon manipulation tasks with complex instructions, leveraging both logical and intuitive aspects of task decomposition.
 Specifically, we first perform a lightweight multimodal alignment on the encoding side to empower the MLLM to perceive visual details and language instructions. 
 The MLLM is then jointly instruction-tuned with a pretrained image-editing model to unlock capabilities of simultaneous reasoning of language instructions and generation of imagined subgoals. Furthermore, we introduce a consistency alignment loss to encourage coherent subgoal images and align with their corresponding instructions, mitigating potential hallucinations and semantic conflicts between the two planning manners.
 Comprehensive evaluations across three task domains demonstrate that PERIA, benefiting from holistic language and vision planning, significantly outperforms competitive baselines in both instruction following accuracy and task success rate on complex manipulation tasks.
@@ -256,7 +256,7 @@ Comprehensive evaluations across three task domains demonstrate that PERIA, bene
 <h2 class="title is-3">Illustrative Overview of PERIA</h2>
 
 <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-  <img style="width: 100%" src="./static/images/intro_formal_version.pdf"/>
+  <img style="width: 100%" src="./static/images/motivation_example.png"/>
 </div>
 
 <div class="content has-text-justified">
@@ -283,7 +283,7 @@ For humans, language planning and vision planning are often intertwined and perf
 <h2 class="title is-3">Two-phase Training Pipeline</h2>
 
 <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-  <img style="width: 100%" src="./static/images/training_pipeline.pdf"/>
+  <img style="width: 100%" src="./static/images/framework.png"/>
 </div>
 
 <div class="content has-text-justified">
@@ -308,7 +308,7 @@ By leveraging MLLM and diffusion-based image editing models, PERIA enables holis
 <h2 class="title is-3">Details of Training</h2>
 
 <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-  <img style="width: 100%" src="./static/images/three_pipelines_v2.pdf"/>
+  <img style="width: 100%" src="./static/images/three_pipelines_0604.png"/>
 </div>
 
 <div class="content has-text-justified">
@@ -404,7 +404,7 @@ The baselines can be categorized into three types of planners: <em>e2e planner</
 
       <h3 class="title is-4"> Accuracy of Language Planning</h3>
           <div style="display: flex; margin: auto; justify-content: center; width: 100%">
-      <img style="width: 90%" src="./static/images/results_2.pdf"/>
+      <img style="width: 90%" src="./static/images/results_2.png"/>
     </div>
     <div
             <p class="caption" style="margin-top: 10px; margin-bottom: 10px;">
